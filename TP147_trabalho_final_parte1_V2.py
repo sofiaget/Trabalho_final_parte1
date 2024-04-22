@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Oct  5 19:59:28 2022
-
-@author: italo.augusto and felipe.batista
-"""
-
 import numpy as np
 from scipy.stats import nakagami
 import matplotlib.pyplot as plt
