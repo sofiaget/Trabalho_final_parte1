@@ -8,7 +8,7 @@ N0 = 1 # densidade espectral de potência do ruído
 Pidb = np.arange(-5,25,5) # vetor de potências em dB
 Pi = np.power(10, Pidb/10) # vetor de potências linear
 
-##################### Simulação para obter a Outage Probability do link direto  ########################
+#Simulação para obter a Outage Probability do link direto
 
 # função de cálculo da Informação Mútua
 def imutua_direto(hij, Pi, N0):
@@ -29,8 +29,7 @@ for j in range(len(Pi)):
         
     probs_direto[j] = co[j]/N
     
-################### Simulação para obter a Outage Probability utilizando a técnica VHD  ###################
-
+# Simulação para obter a Outage Probability utilizando a técnica VHD 
 co_vhd_sd = np.zeros(len(Pi)) # nº de falhas no link direto
 co_vhd_sr = np.zeros(len(Pi)) # nº de falhas no link source-relay
 co_vhd_rd = np.zeros(len(Pi)) # nº de falhas no link relay-destination
@@ -58,9 +57,9 @@ def imutua_vhd_rd(hsd, hrd, Pi, N0):
     return 0.5*np.log2(1 + (((np.abs(hsd)**2)*Pi) + (np.abs(hrd**2))*Pi)/N0)
 
 # Simulando e obtendo as probabilidades por Monte Carlo
-# P/ m = 0 --> link direto
-# P/ m = 1 --> link source-relay
-# P/ m = 2 --> link relay-destination
+# P/ m = 0 -> link direto
+# P/ m = 1 -> link source-relay
+# P/ m = 2 -> link relay-destination
 for m in range(3):
     for j in range(len(Pi)):
         for i in range(N):
@@ -85,7 +84,7 @@ for m in range(3):
 probs_vhd = probs_vhd_sd*probs_vhd_sr + (1-probs_vhd_sr)*probs_vhd_rd
 
 
-################## Simulação para obter a Outage Probability utilizando a técnica VJD  #################
+# Simulação para obter a Outage Probability utilizando a técnica VJD 
 
 co_vjd_sd = np.zeros(len(Pi))  # nº de falhas no link direto
 co_vjd_sr = np.zeros(len(Pi))  # nº de falhas no link source-relay
@@ -100,6 +99,7 @@ probs_vjd = np.zeros(len(Pi))  # Outage Probability em função da potência com
 fator = np.power(0.5, -4)
 
 # modelamento dos canais direto,source-relay e relay-destination com VJD
+#Usando o mesmo fator de atenuação VHD para modelar os canais  e VJD
 hij_vjd_sd = 1 * nakagami.rvs(0.5, size=N)
 hij_vjd_sr = np.sqrt(fator) * nakagami.rvs(1, size=N)
 hij_vjd_rd = np.sqrt(fator) * nakagami.rvs(1, size=N)
@@ -150,7 +150,7 @@ for m in range(3):
 probs_vjd = probs_vjd_sd * probs_vjd_sr + (1 - probs_vjd_sr) * probs_vjd_rd
 
 
-################## Simulação para obter a Outage Probability utilizando a técnica VDH  #################
+# Simulação para obter a Outage Probability utilizando a técnica VDH 
 
 co_vdh_sr = np.zeros(len(Pi))  # nº de falhas no link source-relay
 co_vdh_rd = np.zeros(len(Pi))  # nº de falhas no link relay-destination
@@ -206,14 +206,14 @@ probs_vdh = probs_vdh_sr + probs_vdh_rd - probs_vdh_sr * probs_vdh_rd
 
 
 # plotando as curvas de Outage Probability vs P(dB)
-plt.semilogy(Pidb, probs_direto, 'o-', label='Direto')
-plt.semilogy(Pidb, probs_vhd, 'x-', label='VHD')
-plt.semilogy(Pidb, probs_vjd, '*-', label='VJD')
-plt.semilogy(Pidb, probs_vdh, '+-', label='VDH')
+plt.semilogy(Pidb, probs_direto, 'o-', label='Direto', color='purple')  # Curva do link direto em roxo
+plt.semilogy(Pidb, probs_vhd, 'x-', label='VHD', color='green')       # Curva do VHD em verde
+plt.semilogy(Pidb, probs_vjd, '+-', label='VJD', color='blue')         # Curva do VJD em azul
+plt.semilogy(Pidb, probs_vdh, '*-', label='VDH', color='orange')      # Curva do VDH em laranja
 plt.xlabel('P(dB)')
 plt.ylabel('Outage Probability')
 plt.title('Outage probability for the different schemes as a function of transmit power P ')
-plt.xlim(-5,20)
+plt.xlim(0,20)
 plt.legend()
 plt.grid(axis='both')
 plt.show()
