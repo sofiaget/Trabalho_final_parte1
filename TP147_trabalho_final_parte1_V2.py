@@ -181,10 +181,10 @@ probs_vdh = probs_vdh_sr + probs_vdh_rd - probs_vdh_sr * probs_vdh_rd
  
  
 # plotando as curvas de Outage Probability vs R
-plt.semilogy(R_range, probs_direto, 'o-', label='Direto', color='purple')  # Curva do link direto em roxo
-plt.semilogy(R_range, probs_vhd, 'x-', label='VHD', color='green')       # Curva do VHD em verde
-plt.semilogy(R_range, probs_vjd, '+-', label='VJD', color='blue')         # Curva do VJD em azul
-plt.semilogy(R_range, probs_vdh, '*-', label='VDH', color='orange')      # Curva do VDH em laranja
+plt.semilogy(R_range, probs_direto, 's-', label='Direto', color='purple')  # Curva do link direto em roxo
+plt.semilogy(R_range, probs_vdh, 'x-', label='VDH', color='orange')      # Curva do VDH em laranja
+plt.semilogy(R_range, probs_vhd, 'o-', label='VHD', color='green')       # Curva do VHD em verde
+plt.semilogy(R_range, probs_vjd, '^-', label='VJD', color='blue')         # Curva do VJD em azul
 plt.xlabel('R')
 plt.ylabel('Outage Probability')
 plt.title('Outage probability for the different schemes as a function of transmission rate R')
